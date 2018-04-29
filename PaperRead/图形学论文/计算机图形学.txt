@@ -1,0 +1,34 @@
+整个算法的过程:
+	1. 根据landmark将照片分类
+	2. 根据viewpoint再次进行分类
+	3. 将得到的类别按照日期进行排序
+	4. stabilise the appearance 来弥补光照还有抖动.
+
+这篇文章的贡献：
+	We employ structure-from-motion and stereo algorithms to compensate for viewpoint variations, and a simple but
+	effective new temporal filtering approach to stabilize appearance.
+
+整个算法的流程英文描述:
+	1. 	how candidate time-lapse video locations are mined from unstructured photo collections. Each candidate 
+		timelapse video consists of a reference camera viewpoint and a set of nearby images.
+	2.	Next, the images of each candidate time-lapse are ordered chronologically and warped into the reference 
+		camera to compensate for viewpoint differences
+	3.	stabilize the appearance of the video to compensate for varying lighting conditions and occlusions
+		from transient objects like people.	
+	
+每一步的详细过程:
+		1. 1. 根据地标信息进行分类，得到数据集landmarks
+		   2. 对每一个landmark,用SFM算法进行3D重建
+				2.1 SFM(https://blog.csdn.net/gh_home/article/details/73927584)
+					Structure from motion 指的是由图像生成3维点云以及相机姿态，即：
+						输入：一系列图像，拍摄同一场景
+						输出： 每一张图像对应的相机位置和朝向， 场景中的3D点云
+			通过第二步我们就得到了每张图片的viewpoint 还有3D 表示
+			3. 选出K个典型的视角(看懂canonical view这个算法)
+			4. 对于每一个reference image,找到和他相近的图片
+				标准1：视角
+				标准2：相机距离场景的远近
+			5.	过滤掉那些组中图片少于300张的组
+		2.  1. 首先计算出reference image 的depth map
+			2. 然后对每张图片进行改造
+			
